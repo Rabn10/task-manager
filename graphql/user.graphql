@@ -1,0 +1,18 @@
+input RegisterInput {
+    name: String! @rules(apply: ["required", "string", "max:255"])
+    email: String! @rules(apply: ["required", "string", "email", "max:255", "unique:users,email"])
+    password: String! @rules(apply: ["required", "string", "min:8", "confirmed"])
+    password_confirmation: String! @rules(apply: ["required", "string", "min:8"])
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+
+extend type Mutation {
+    register(input: RegisterInput @spread): User!
+        @field(resolver: "Register@create")
+}
