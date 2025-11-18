@@ -1,0 +1,15 @@
+input ProjectInput {
+    name: String! @rules(apply: ["required", "string", "max:255"])
+    description: String @rules(apply: ["string"])
+}
+
+type Project {
+    id: ID!
+    name: String!
+    description: String
+}
+
+extend type Mutation {
+    createProject(input: ProjectInput @spread): Project!
+        @field(resolver: "ProjectMutation@create")
+}

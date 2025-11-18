@@ -10,3 +10,4 @@ type Mutation {
 }
 
 #import user.graphql
+#import project.graphql
