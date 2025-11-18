@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('task_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
         });
     }

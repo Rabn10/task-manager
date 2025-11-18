@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->foreignId('created_by')->constrained('users');
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
         });
     }

@@ -20,4 +20,23 @@ class ProjectMutation
 
         return $project;
     }
+
+    public function update($root, array $args, GraphQLContext $context): Project
+    {
+        $project = Project::find($args['id']);
+        $project->name = $args['name'];
+        $project->description = $args['description'];
+        $project->save();
+
+        return $project;
+    }
+
+    public function delete($root, array $args, GraphQLContext $context): Project
+    {
+        $project = Project::find($args['id']);
+        $project->delete_flag = true;
+        $project->save();
+
+        return $project;
+    }
 }

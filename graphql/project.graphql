@@ -9,8 +9,22 @@ type Project {
     description: String
 }
 
+extend type Query {
+        projects: [Project!] @all
+        project(id: ID! @eq): Project @find
+        @guard(checks: ["auth:api"])
+}
+
 extend type Mutation {
     createProject(input: ProjectInput @spread): Project!
         @field(resolver: "ProjectMutation@create")
+        @guard(checks: ["auth:api"])
+
+    updateProject(id: ID! @eq, input: ProjectInput @spread): Project!
+        @field(resolver: "ProjectMutation@update")
+        @guard(checks: ["auth:api"])
+
+    deleteProject(id: ID! @eq): Project!
+        @field(resolver: "ProjectMutation@delete")
         @guard(checks: ["auth:api"])
 }

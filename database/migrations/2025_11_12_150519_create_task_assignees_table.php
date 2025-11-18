@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('task_id')->constrained('tasks');
             $table->foreignId('user_id')->constrained('users');
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
         });
     }
