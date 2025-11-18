@@ -12,4 +12,5 @@ type Project {
 extend type Mutation {
     createProject(input: ProjectInput @spread): Project!
         @field(resolver: "ProjectMutation@create")
+        @guard(checks: ["auth:api"])
 }

@@ -30,12 +30,13 @@ class Register
         if(! $user || ! Hash::check($args['password'], $user->password)) {
             return [
                 'status' => 0,
-                'message' => 'Invalid credentials'
+                'message' => 'Invalid credentials',
+                'user' => null,
+                'token' => null,
             ];
         }
 
-        //Create token (Sanctum)
-        $token = $user->createToken('authToken')->plainTextToken;
+        $token = $user->createToken('auth_token')->accessToken;
 
         return [
             'status' => 1,

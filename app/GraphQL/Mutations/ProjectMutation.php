@@ -15,7 +15,7 @@ class ProjectMutation
         $project = Project::create([
             'name' => $args['name'],
             'description' => $args['description'],
-            'created_by' => 6,
+            'created_by' => 1,
         ]);
 
         return $project;
