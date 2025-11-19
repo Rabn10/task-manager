@@ -7,11 +7,12 @@ type Project {
     id: ID!
     name: String!
     description: String
+    delete_flag: Boolean
 }
 
 extend type Query {
-        projects: [Project!] @all
-        project(id: ID! @eq): Project @find
+        projects: [Project!] @all(scopes: ["deleted"])
+        project(id: ID! @eq): Project @find(scopes: ["deleted"])
         @guard(checks: ["auth:api"])
 }
 
