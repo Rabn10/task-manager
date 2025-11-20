@@ -1,0 +1,39 @@
+input TaskInput {
+    name: String! @rules(apply: ["required", "string", "max:255"])
+    description: String @rules(apply: ["string"])
+    project_id: ID! @rules(apply: ["required", "exists:projects,id"])
+    status_id: ID! @rules(apply: ["required", "exists:task_statuses,id"])
+    priority: String @rules(apply: ["string", "in:low,medium,high"])
+    due_date: Date @rules(apply: ["date"])
+}
+
+type Task {
+    id: ID!
+    name: String!
+    description: String
+    project: Project! @belongsTo
+    status: Status! @belongsTo
+    priority: String
+    due_date: Date
+    is_deleted: Boolean
+}
+
+extend type Query {
+        tasks: [Task!] @all(scopes: ["deleted"])
+        task(id: ID! @eq): Task @find (scopes: ["deleted"])
+        @guard(checks: ["auth:api"])
+}
+
+extend type Mutation {
+    createTask(input: TaskInput @spread): Task!
+        @field(resolver: "TaskMutation@create")
+        @guard(checks: ["auth:api"])
+
+    updateTask(id: ID! @eq, input: TaskInput @spread): Task!
+        @field(resolver: "TaskMutation@update")
+        @guard(checks: ["auth:api"])
+
+    deleteTask(id: ID! @eq): Task!
+        @field(resolver: "TaskMutation@delete")
+        @guard(checks: ["auth:api"])    
+}
