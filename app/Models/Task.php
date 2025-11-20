@@ -7,6 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     
+    protected $fillable = [
+        'name',
+        'description',
+        'project_id',
+        'status_id',
+        'priority',
+        'due_date',
+        'created_by',
+    ];
+
+    public function scopeDeleted($query) {
+        return $query->where('is_deleted', false);
+    }
+
     public function project() {
         return $this->belongsTo(Project::class);
     }
