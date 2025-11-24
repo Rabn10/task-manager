@@ -5,6 +5,7 @@ input TaskInput {
     status_id: ID! @rules(apply: ["required", "exists:task_statuses,id"])
     priority: String @rules(apply: ["string", "in:low,medium,high"])
     due_date: Date @rules(apply: ["date"])
+    user_id: ID @rules(apply: ["exists:users,id"])
 }
 
 type Task {

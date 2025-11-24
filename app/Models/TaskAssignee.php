@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaskAssignee extends Model
 {
-    //
+    protected $fillable = ['task_id', 'user_id'];
 }
