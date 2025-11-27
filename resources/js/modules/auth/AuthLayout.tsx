@@ -6,9 +6,9 @@ export const AuthLayout = () => {
         <main>
             <Routes>
                 {AuthRoutes.map((route, index) => (
-                    <Route key={route.path} path={route.path} element={route.element} />
+                    <Route key={index} path={route.path} element={route.element} />
                 ))}
-                <Route path="*" element={<Navigate to="login" replace />} />
+                {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
             </Routes>
         </main>
     );

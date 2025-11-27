@@ -3,11 +3,23 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
 import MainRoutes from "./routes/Index";
 import { MantineProvider } from "@mantine/core";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
+
+const client = new ApolloClient({
+    link: new HttpLink({
+        uri: 'http://localhost:8000/graphql',
+        credentials: 'include',
+    }),
+    cache: new InMemoryCache(),
+})
 
 function App() {
     return (
         <MantineProvider>
-            <MainRoutes />
+            <ApolloProvider client={client}>
+                <MainRoutes />
+            </ApolloProvider>
         </MantineProvider>
 
     );
