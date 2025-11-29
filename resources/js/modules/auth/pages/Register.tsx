@@ -1,11 +1,12 @@
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const ADD_USER = gql`
-    mutation register($name: String!, $email: String!, $password: String! $password_confirmation: String!) {
-        register(name: $name, email: $email, password: $password, password_confirmation: $password_confirmation){
+    mutation register($input: RegisterInput!) {
+        register(input: $input){
             id
             name
             email
@@ -14,6 +15,7 @@ const ADD_USER = gql`
 `;
 const Register = () => {
 
+    const navigate = useNavigate();
     const [user, SetUser] = useState({
         name: '',
         email: '',
@@ -28,19 +30,21 @@ const Register = () => {
         try {
             const res = await addUserMutation({
                 variables: {
-                    name: user.name,
-                    email: user.email,
-                    password: user.password,
-                    password_confirmation: user.password_confirmation
+                    input: {
+                        name: user.name,
+                        email: user.email,
+                        password: user.password,
+                        password_confirmation: user.password_confirmation
+                    }
                 }
             });
-            console.log(res);
             SetUser({
                 name: '',
                 email: '',
                 password: '',
                 password_confirmation: ''
             });
+            navigate('/');
         } catch (error) {
             console.log(error);
             // return error.graphQLErrors.map((err) => {
