@@ -1,8 +1,67 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
+import { em } from "@mantine/core";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+const LOGIN_MUTATION = gql`
+mutation login($input: Login!) {
+    login(input: $input){
+        status
+        message
+        token
+        user {
+        email
+        }
+    }
+}
+`;
+
+interface LoginResponse {
+    data: {
+        login: {
+            status: string;
+            message: string;
+            token: string;
+            user: {
+                email: string;
+            };
+        };
+    };
+}
 
 
 const Login = () => {
+    const navigate = useNavigate();
+    const [form, setForm] = useState({
+        email: '',
+        password: ''
+    });
+
+    const [loginMutation] = useMutation(LOGIN_MUTATION);
+    // const [rememberMe, setRememberMe] = useState(false);
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        try {
+            const res: LoginResponse = await loginMutation({
+                variables: {
+                    input: {
+                        email: form.email,
+                        password: form.password,
+                    },
+                },
+            });
+            sessionStorage.setItem("token", res.data.login.token);
+            navigate('/dashboard');
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
     return (
         <div className="min-h-screen w-full flex items-center justify-center bg-[#f8f9fc] p-4">
             <div className="w-full max-w-md flex flex-col items-center">
@@ -33,7 +92,7 @@ const Login = () => {
 
                 {/* Card */}
                 <div className="bg-white shadow-sm rounded-xl w-full p-7">
-                    <form className="flex flex-col gap-5">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                         {/* Email */}
                         <div className="flex flex-col">
                             <label className="text-[14px] font-medium text-[#0d121b] mb-1">
@@ -41,6 +100,8 @@ const Login = () => {
                             </label>
                             <input
                                 type="text"
+                                value={form.email}
+                                onChange={(e) => setForm({ ...form, email: e.target.value })}
                                 placeholder="Enter your email or username"
                                 className="border border-[#d5dceb] h-12 rounded-lg px-4 text-[15px] placeholder:text-[#8d9bb9] focus:ring-2 focus:ring-[#135bec33] outline-none"
                             />
@@ -55,6 +116,8 @@ const Login = () => {
                             <div className="relative">
                                 <input
                                     type="password"
+                                    value={form.password}
+                                    onChange={(e) => setForm({ ...form, password: e.target.value })}
                                     placeholder="Enter your password"
                                     className="border border-[#d5dceb] h-12 rounded-lg w-full px-4 pr-12 text-[15px] placeholder:text-[#8d9bb9] focus:ring-2 focus:ring-[#135bec33] outline-none"
                                 />
