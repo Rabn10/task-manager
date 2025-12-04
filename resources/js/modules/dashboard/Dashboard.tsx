@@ -1,10 +1,9 @@
 import React from "react";
+import DashboardHeader from "./DashboardHeader";
 const Dashboard = () => {
     return (
-        <div className="ml-64 p-2">
-            <h1>Dashboard</h1>
-        </div>
-    );
+        <DashboardHeader />
+    )
 }
 
 export default Dashboard;
