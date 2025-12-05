@@ -11,4 +11,8 @@ class Project extends Model
     public function scopeDeleted($query) {
         return $query->where('delete_flag', false);
     }
+
+    public function createdBy() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

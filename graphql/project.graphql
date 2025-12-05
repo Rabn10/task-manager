@@ -3,9 +3,15 @@ input ProjectInput {
     description: String @rules(apply: ["string"])
 }
 
+type User {
+    id: ID!
+    name: String!
+}
+
 type Project {
     id: ID!
     name: String!
+    created_by: User! @belongsTo(relation: "createdBy")
     description: String
     delete_flag: Boolean
 }
