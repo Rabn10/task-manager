@@ -10,12 +10,12 @@ const MainRoutes = () => {
     const isLogin = token !== null;
     return (
         <Routes>
-            <Route path="/*"
-                element={!isLogin ? <AuthLayout /> : <Navigate to="/dashboard" replace />} />
+            <Route path="auth/*"
+                element={!isLogin ? <AuthLayout /> : <Navigate to="/" replace />} />
 
             <Route
-                path="dashboard/*"
-                element={isLogin ? <Main /> : <Navigate to="/dashboard" replace />} />
+                path="/*"
+                element={isLogin ? <Main /> : <Navigate to="/auth" replace />} />
         </Routes>
     );
 };

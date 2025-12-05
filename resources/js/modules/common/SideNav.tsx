@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 
 const SideNav = () => {
     const SidenavTabs = [
-        { name: "Dashboard", link: "/dashboard", },
+        { name: "Dashboard", link: "/", },
         { name: "My Tasks", link: "/task", },
         { name: "Projects", link: "/project", },
         { name: "Analytics", link: "/analytics", },
